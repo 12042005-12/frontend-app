@@ -1,3 +1,4 @@
+import { useState ,createContext} from "react";
 import Header from "./components/Header";
 import Content from "./components/Content";
 import Footer from "./components/Footer";
@@ -7,9 +8,13 @@ import Register from "./components/Register";
 import Cart from "./components/Cart";
 import Orders from "./components/Orders";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+export const AppContext=createContext();
+
 function App() {
+  const [user,setUser] = useState({});
   return (
     <div>
+      <AppContext.Provider value={{user,setUser}}>
       <BrowserRouter>
         <Header />
         <Routes>
@@ -22,7 +27,9 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
+      </AppContext.Provider>
     </div>
+
   );
 }
 export default App;
