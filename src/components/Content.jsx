@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Content.css";
 
 export default function Content() {
   const [products, setProducts] = useState([]);
@@ -10,20 +11,14 @@ export default function Content() {
   }, []);
 
   return (
-    <div>
-      <h2>Products</h2>
-
+    <div className="products-container">
       {products.map((product) => (
-        <div key={product._id}>
-          <h3>{product.name}</h3>
-
+        <div className="product-card" key={product._id}>
           <img
             src={`https://backend-app-x0jm.onrender.com${product.imageUrl}`}
-            width="200"
             alt={product.name}
           />
-
-          <p>{product.desc}</p>
+          <h3>{product.name}</h3>
           <p>₹{product.price}</p>
         </div>
       ))}
