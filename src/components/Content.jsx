@@ -1,45 +1,32 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import "./Content.css"
+import React, { useEffect, useState } from "react";
 
-const API_URL = import.meta.env.VITE_API_URL
-
-function Content() {
-  // const [count, setCount] = useState(0);
+export default function Content() {
   const [products, setProducts] = useState([]);
-  const increment = () => {
-    setCount(count + 1);
-  };
-  const decrement = () => {
-    setCount(count - 1);
-  };
-  const fetchProducts = async () => {
-    const url = `${API_URL}/store`;
-    const res = await axios.get(url);
-    setProducts(res.data);
-  };
+
   useEffect(() => {
-    fetchProducts();
+    fetch("https://backend-app-x0jm.onrender.com/store")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
   }, []);
+
   return (
     <div>
-     
-      {/* <button onClick={decrement}>-</button>
-      {count}
-      <button onClick={increment}>+</button>
-      <hr /> */}
-      <div className="row">
-        {products.map((product) => (
-          <div className="box">
-            <img src={`${API_URL}/${product.imageUrl}`} width="300px" alt="" />
-            <h3>{product.name}</h3>
-            <p>{product.desc}</p>
-            <h4>{product.price}</h4>
-            <p><button>Add to Cart</button></p>
-          </div>
-        ))}
-      </div>
+      <h2>Products</h2>
+
+      {products.map((product) => (
+        <div key={product._id}>
+          <h3>{product.name}</h3>
+
+          <img
+            src={`https://backend-app-x0jm.onrender.com${product.imageUrl}`}
+            width="200"
+            alt={product.name}
+          />
+
+          <p>{product.desc}</p>
+          <p>₹{product.price}</p>
+        </div>
+      ))}
     </div>
   );
 }
-export default Content;
