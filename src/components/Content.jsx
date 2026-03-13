@@ -23,7 +23,7 @@ export default function Content() {
       {products.map((product) => (
         <div className="product-card" key={product._id}>
           <img
-            src={`https://backend-app-x0jm.onrender.com${product.imageUrl}`}
+            src={`https://backend-app-d5df.onrender.com${product.imageUrl}`}
             alt={product.name}
           />
           <h3>{product.name}</h3>
