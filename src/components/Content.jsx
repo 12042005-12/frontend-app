@@ -6,7 +6,7 @@ export default function Content() {
   const { cart, setCart } = React.useContext(AppContext);
 
   useEffect(() => {
-    fetch("https://backend-app-x0jm.onrender.com/store")
+    fetch("https://backend-app-d5df.onrender.com/store")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
