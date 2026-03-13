@@ -1,38 +1,47 @@
-import React, { useEffect, useState } from "react";
-import "./Content.css";
+import { useState, useEffect, useContext } from "react";
 import { AppContext } from "../App";
-export default function Content() {
-  const [products, setProducts] = useState([]);
-  const { cart, setCart } = React.useContext(AppContext);
+import axios from "axios";
+import "./Content.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+function Content() {
+  // const [count, setCount] = useState(0);
+  const [products, setProducts] = useState([]);
+  const { user, setUser, cart, setCart } = useContext(AppContext);
+  const fetchProducts = async () => {
+    const url = `${API_URL}/store`;
+    const res = await axios.get(url);
+    setProducts(res.data);
+  };
   useEffect(() => {
-    fetch("https://backend-app-d5df.onrender.com/store")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
+    fetchProducts();
   }, []);
+
   const addToCart = (product) => {
     const found = cart.find((item) => item._id === product._id);
     if (!found) {
-      product.quantity=1;
-      setCart([...cart, product]);
+      product.quantity = 1;
+      setCart([...cart,product]);
     }
   };
 
   return (
-    <div className="products-container">
-      {products.map((product) => (
-        <div className="product-card" key={product._id}>
-          <img
-            src={`https://backend-app-d5df.onrender.com${product.imageUrl}`}
-            alt={product.name}
-          />
-          <h3>{product.name}</h3>
-          <p>₹{product.price}</p>
-          <p>
-            <button onClick={() => addToCart(product)}>Add to Cart</button>
-          </p>
-        </div>
-      ))}
+    <div>
+      <div className="row">
+        {products.map((product) => (
+          <div className="box">
+            <img src={`${API_URL}/${product.imageUrl}`} width="300px" alt="" />
+            <h3>{product.name}</h3>
+            <p>{product.desc}</p>
+            <h4>{product.price}</h4>
+            <p>
+              <button onClick={() => addToCart(product)}>Add to Cart</button>
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
+export default Content;
